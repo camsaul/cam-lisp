@@ -1,7 +1,12 @@
 P := camlisp
 
-HEADERS := $(shell find . -name "*.h" -and -not -name "*flymake*" -and -not -name "*\#*")
-SOURCES := $(shell find . -name "*.cpp" -and -not -name "*flymake*" -and -not -name "*\#*")
+CXX := g++ #clang
+
+SOURCE_DIRS := src #vendor/cpp-readline/src
+
+HEADERS := $(shell find ${SOURCE_DIRS} -name "*.h" -and -not -name "*flymake*" -and -not -name "*\#*")
+HEADERS += $(shell find ${SOURCE_DIRS} -name "*.hpp" -and -not -name "*flymake*" -and -not -name "*\#*")
+SOURCES := $(shell find ${SOURCE_DIRS} -name "*.cpp" -and -not -name "*flymake*" -and -not -name "*\#*")
 OBJECTS := $(SOURCES:.cpp=.o)
 DEPS := $(SOURCES:.cpp=.d)
 
@@ -14,10 +19,10 @@ CPPFLAGS :=
 
 WARNING_FLAGS := -Werror -Wfatal-errors -Winline
 DIAGNOSTIC_OPTS := -fdiagnostics-show-template-tree -fno-elide-type
-COMPILER_FLAGS := -std=c++17 -pipe -gfull -stdlib=libc++ -O0
+COMPILER_FLAGS := -std=c++17 -pipe -O0 -fPIC # -stdlib=libc++ -gfull
 CXXFLAGS := $(INCLUDES) $(WARNING_FLAGS) $(DIAGNOSTIC_OPTS) $(COMPILER_FLAGS)
 
-LDFLAGS := -fatal_warnings
+LDFLAGS := -lreadline #-fatal_warnings
 LIBS :=
 
 
@@ -27,7 +32,7 @@ $(P): $(PCH) deps $(SOURCES) $(HEADERS)
 deps: $(DEPS)
 
 all : $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $(P)
+	$(CXX) $(OBJECTS) -o $(P) $(LDFLAGS)
 
 %.d : %.cpp
 	$(CXX) $(CXXFLAGS) -MF"$@" -MG -MM -MT"$(<:.cpp=.o)" "$<"
