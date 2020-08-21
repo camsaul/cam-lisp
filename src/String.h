@@ -16,7 +16,7 @@ public:
 
     // TODO -- make make this private and give std::make_shared friend access to it
     String(const std::string& s);
-    virtual ~String();
+    virtual ~String() = default;
 
     inline const std::string& Value() const { return this->s_; }
 };
