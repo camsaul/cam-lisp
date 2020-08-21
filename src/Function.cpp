@@ -18,12 +18,12 @@ void Method::AddMethod(const Type& type, _Function f) {
     this->_table[type] = f;
 }
 
-Object* Method::operator()(Object* arg) const {
+ObjectPtr Method::operator()(ObjectPtr arg) const {
     _Args args { arg };
     return (*this)(args);
 }
 
-Object* Method::operator()(_Args& args) const {
+ObjectPtr Method::operator()(_Args& args) const {
     if (args.size() == 0) throw std::runtime_error { "Method invoked with zero args" };
 
     auto firstArg = args[0];

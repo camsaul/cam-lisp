@@ -17,8 +17,8 @@ public:
     const Type& type;
 
     virtual ~Object() = default;
-
-    friend std::ostream& operator<<(std::ostream& os, const Object& rhs);
 };
 
 typedef std::shared_ptr<Object> ObjectPtr;
+
+std::ostream& operator<<(std::ostream& os, const ObjectPtr rhs);

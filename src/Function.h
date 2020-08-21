@@ -6,9 +6,9 @@
 
 #include "Object.h"
 
-typedef const std::vector<Object*> _Args;
+typedef const std::vector<ObjectPtr> _Args;
 
-typedef std::function<Object*(_Args&)> _Function;
+typedef std::function<ObjectPtr(_Args&)> _Function;
 
 namespace type {
     static const Type FUNCTION = "function";
@@ -30,9 +30,6 @@ class Method {
     // Add (or replace) the method implementation for a type.
     void AddMethod(const Type& type, _Function f);
 
-    inline Object* operator()(Object& arg) const { return (*this)(&arg); }
-    Object* operator()(Object* arg) const;
-    Object* operator()(_Args& args) const;
+    ObjectPtr operator()(ObjectPtr arg) const;
+    ObjectPtr operator()(_Args& args) const;
 };
-
-Object * Print(const Object& object);
