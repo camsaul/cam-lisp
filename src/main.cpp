@@ -5,7 +5,6 @@
 #include "Bootstrap.h"
 #include "Function.h"
 #include "Object.h"
-#include "Type.h"
 #include "Readline.h"
 #include "String.h"
 
@@ -22,7 +21,7 @@ int main() {
     }
 
     while (true) {
-        auto response = ReadLine::Read(">");
+        auto response = ReadLine::Read("> ");
 
         if (response.status != ReadLine::Status::OK) break;
 

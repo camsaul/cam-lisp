@@ -1,30 +1,37 @@
 #pragma once
 
 #include <functional>
-#include <iostream>
 #include <unordered_map>
+#include <vector>
 
-#include "Type.h"
 #include "Object.h"
 
-typedef std::function<Object *(Object *[])> _Function;
+typedef const std::vector<Object*> _Args;
+
+typedef std::function<Object*(_Args&)> _Function;
 
 namespace type {
-    static const Type FUNCTION { "function" };
+    static const Type FUNCTION = "function";
 }
 
-typedef std::unordered_map<Type, _Function> _Method;
+// TODO - make Function and Method Objects
+
+typedef std::unordered_map<Type, _Function> _MethodTable;
 
 class Method {
-    _Method _table;
+    _MethodTable _table = {};
  public:
-    const _Function* const GetMethod(const Type& type) const;
+    static Method Print;
+
+    /// return the a pointer to the method for type if one exists. Otherwise NULL
+    const _Function * const GetMethod(const Type& type) const;
+
+    // Add (or replace) the method implementation for a type.
     void AddMethod(const Type& type, _Function f);
-    void Invoke(Object& object) const;
+
+    inline Object* operator()(Object& arg) const { return (*this)(&arg); }
+    Object* operator()(Object* arg) const;
+    Object* operator()(_Args& args) const;
 };
 
-namespace method {
-    extern Method INITIALIZE;
-    extern Method DESTROY;
-    extern Method PRINT;
-}
+Object * Print(const Object& object);

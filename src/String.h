@@ -1,8 +1,18 @@
+#pragma once
+
+#include <string>
+
 #include "Object.h"
-#include "Type.h"
 
 namespace type {
-    static const Type STRING { "String" };
+    static const Type STRING = "string";
 }
 
-Object String(const std::string& s);
+class String : public Object {
+public:
+    const std::string s;
+
+    String(const std::string& s);
+
+    virtual ~String();
+};

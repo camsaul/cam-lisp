@@ -4,3 +4,4 @@ camlisp
 nul
 *flymake*
 *.pch
+debug.log

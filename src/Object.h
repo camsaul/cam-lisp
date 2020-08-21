@@ -2,14 +2,19 @@
 
 #include <iostream>
 
-#include "Type.h"
+typedef std::string Type;
 
-struct Object {
+namespace type {
+    static const Type TYPE = "type";
+}
+
+class Object {
+protected:
+    Object(const Type& type);
+public:
     const Type& type;
 
-    void* data { NULL };
+    virtual ~Object();
 
-    ~Object();
-
-    friend std::ostream& operator<<(std::ostream& os, Object& rhs);
+    friend std::ostream& operator<<(std::ostream& os, const Object& rhs);
 };

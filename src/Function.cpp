@@ -1,3 +1,5 @@
+#include <exception>
+
 #include "Function.h"
 
 const _Function* const Method::GetMethod(const Type& type) const {
@@ -13,14 +15,22 @@ void Method::AddMethod(const Type& type, _Function f) {
     this->_table[type] = f;
 }
 
-void Method::Invoke(Object& object) const {
-    // TODO -- error if the method does not exist
-    // TODO -- type hierarchy
-    // std::cout << "Invoke " << object.type << std::endl;
-    const _Function& f = this->_table.at(object.type);
-    Object *args[] = { &object };
-    f(args);
+Object* Method::operator()(Object* arg) const {
+    _Args args { arg };
+    return (*this)(args);
 }
 
-Method method::PRINT {};
-Method method::DESTROY {};
+Object* Method::operator()(_Args& args) const {
+    if (args.size() == 0) throw std::runtime_error { "Method invoked with zero args" };
+
+    auto firstArg = args[0];
+
+    if (!firstArg) throw std::runtime_error { "Method invoked with nil first args" };
+
+    // TODO -- type hierarchy
+
+    const auto& f = this->_table.at(firstArg->type);
+    return f(args);
+}
+
+Method Method::Print {};
