@@ -3,21 +3,13 @@
 #include "Function.h"
 #include "Object.h"
 
-Object::Object(const Type& t) :
-    type(t)
-{};
-
 Object::~Object() {
-    std::cout << "Destroying " << this->type << " object " << *this << std::endl;
+    if (Method::Destroy.GetMethod(this->type)) {
+        std::cout << "Destroying " << this->type << " object " << this << std::endl;
+        Method::Destroy(this);
+        this->data = NULL;
+    }
 }
-
-// Object::~Object() {
-//     // std::cout << "IN DESTRUCTOR FOR " << this->type << std::endl;
-//     if (this->data && method::DESTROY.GetMethod(this->type)) {
-//         method::DESTROY.Invoke(*this);
-//     }
-//     this->data = NULL;
-// }
 
 std::ostream& operator<<(std::ostream& os, const Object& rhs) {
     Method::Print(const_cast<Object&>(rhs));

@@ -3,6 +3,6 @@
 
 #include <boost/spirit/include/qi.hpp>
 
-Object Parse(const std::string& s) {
-    return String { "WOW "};
+ObjectPtr Parse(const std::string& s) {
+    return String("WOW");
 }

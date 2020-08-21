@@ -1,7 +1,5 @@
 #include <iostream>
 
-// #include "../vendor/cpp-readline/src/Console.hpp"
-
 #include "Bootstrap.h"
 #include "Function.h"
 #include "Object.h"
@@ -9,15 +7,13 @@
 #include "String.h"
 
 int main() {
-    Bootstrap();
-
-    std::string input;
-
-    std::cout << type::STRING << std::endl;
+    Bootstrap::BootstrapAll();
 
     {
-        Object MY_OBJECT = String("Neat!");
-        std::cout << MY_OBJECT << std::endl;
+        auto my_object = String("Neat!");
+        std::cout << "[Print string] " << *my_object << std::endl;
+
+        auto my_object_2 = my_object;
     }
 
     while (true) {

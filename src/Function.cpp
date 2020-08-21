@@ -2,6 +2,9 @@
 
 #include "Function.h"
 
+Method Method::Destroy {};
+Method Method::Print {};
+
 const _Function* const Method::GetMethod(const Type& type) const {
     auto itr = this->_table.find(type);
     if (itr != this->_table.end()) {
@@ -32,5 +35,3 @@ Object* Method::operator()(_Args& args) const {
     const auto& f = this->_table.at(firstArg->type);
     return f(args);
 }
-
-Method Method::Print {};

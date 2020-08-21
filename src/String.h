@@ -8,11 +8,10 @@ namespace type {
     static const Type STRING = "string";
 }
 
-class String : public Object {
-public:
-    const std::string s;
+ObjectPtr String(const std::string& s);
 
-    String(const std::string& s);
+const std::string& StringValue(const Object& obj);
 
-    virtual ~String();
-};
+namespace Bootstrap {
+    void BootstrapString();
+}

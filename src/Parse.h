@@ -5,4 +5,4 @@
 #include "Object.h"
 
 /// Parse an object from a String.
-Object Parse(const std::string& s);
+ObjectPtr Parse(const std::string& s);

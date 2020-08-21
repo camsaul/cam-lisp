@@ -1,3 +1,5 @@
 #pragma once
 
-void Bootstrap();
+namespace Bootstrap {
+    void BootstrapAll();
+}

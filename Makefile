@@ -19,7 +19,7 @@ CPPFLAGS :=
 
 WARNING_FLAGS := -Werror -Wfatal-errors -Winline
 DIAGNOSTIC_OPTS := -fdiagnostics-show-template-tree -fno-elide-type
-COMPILER_FLAGS := -std=c++17 -pipe -O0 -fPIC # -stdlib=libc++ -gfull
+COMPILER_FLAGS := -std=c++17 -pipe -O0 -g -fPIC # -stdlib=libc++ -gfull
 CXXFLAGS := $(INCLUDES) $(WARNING_FLAGS) $(DIAGNOSTIC_OPTS) $(COMPILER_FLAGS)
 
 LDFLAGS := -lreadline #-fatal_warnings

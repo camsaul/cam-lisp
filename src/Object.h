@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 
 typedef std::string Type;
 
@@ -8,13 +9,13 @@ namespace type {
     static const Type TYPE = "type";
 }
 
-class Object {
-protected:
-    Object(const Type& type);
-public:
+struct Object {
     const Type& type;
+    void* data = NULL;
 
-    virtual ~Object();
+    ~Object();
 
     friend std::ostream& operator<<(std::ostream& os, const Object& rhs);
 };
+
+typedef std::shared_ptr<Object> ObjectPtr;
