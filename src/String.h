@@ -8,10 +8,17 @@ namespace type {
     static const Type STRING = "string";
 }
 
-ObjectPtr String(const std::string& s);
+class String : public Object {
+private:
+    const std::string& s_;
+public:
+    static void Initialize();
 
-const std::string& StringValue(const Object& obj);
+    // TODO -- make make this private and give std::make_shared friend access to it
+    String(const std::string& s);
+    virtual ~String();
 
-namespace Bootstrap {
-    void BootstrapString();
-}
+    inline const std::string& Value() const { return this->s_; }
+};
+
+ObjectPtr MakeString(const std::string& s);

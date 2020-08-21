@@ -22,7 +22,7 @@ class Method {
     _MethodTable _table = {};
  public:
     static Method Print;
-    static Method Destroy;
+    // static Method Destroy;
 
     /// return the a pointer to the method for type if one exists. Otherwise NULL
     const _Function * const GetMethod(const Type& type) const;

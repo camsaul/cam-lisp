@@ -6,5 +6,5 @@
 #include "String.h"
 
 void Bootstrap::BootstrapAll() {
-    Bootstrap::BootstrapString();
+    String::Initialize();
 }

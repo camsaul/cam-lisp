@@ -2,7 +2,7 @@
 
 #include "Function.h"
 
-Method Method::Destroy {};
+// Method Method::Destroy {};
 Method Method::Print {};
 
 const _Function* const Method::GetMethod(const Type& type) const {

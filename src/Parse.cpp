@@ -4,5 +4,5 @@
 #include <boost/spirit/include/qi.hpp>
 
 ObjectPtr Parse(const std::string& s) {
-    return String("WOW");
+    return MakeString("WOW");
 }

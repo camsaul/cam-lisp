@@ -9,11 +9,14 @@ namespace type {
     static const Type TYPE = "type";
 }
 
-struct Object {
-    const Type& type;
-    void* data = NULL;
+class Object {
+protected:
+    Object(const Type& type);
 
-    ~Object();
+public:
+    const Type& type;
+
+    virtual ~Object() = default;
 
     friend std::ostream& operator<<(std::ostream& os, const Object& rhs);
 };

@@ -10,7 +10,7 @@ int main() {
     Bootstrap::BootstrapAll();
 
     {
-        auto my_object = String("Neat!");
+        auto my_object = MakeString("Neat!");
         std::cout << "[Print string] " << *my_object << std::endl;
 
         auto my_object_2 = my_object;
