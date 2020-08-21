@@ -2,9 +2,11 @@
 
 #include "Bootstrap.h"
 #include "Function.h"
+#include "Parse.h"
 #include "Object.h"
 #include "Readline.h"
 #include "String.h"
+#include "Util.h"
 
 int main() {
     Bootstrap::BootstrapAll();
@@ -23,7 +25,15 @@ int main() {
 
         ReadLine::AddHistory(response.line);
 
-        std::cout << response.line << std::endl;
+        try {
+            auto result = Parse(response.line);
+            std::cout << response.line << std::endl;
+        } catch (const std::runtime_error& e) {
+            {
+                auto _ = Color(Color::Red);
+                std::cout << "ERROR: " << e.what() << std::endl;
+            }
+        }
     }
 
     return 0;

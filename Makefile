@@ -2,7 +2,7 @@ P := camlisp
 
 CXX := g++ #clang
 
-SOURCE_DIRS := src #vendor/cpp-readline/src
+SOURCE_DIRS := src
 
 HEADERS := $(shell find ${SOURCE_DIRS} -name "*.h" -and -not -name "*flymake*" -and -not -name "*\#*")
 HEADERS += $(shell find ${SOURCE_DIRS} -name "*.hpp" -and -not -name "*flymake*" -and -not -name "*\#*")
@@ -10,11 +10,11 @@ SOURCES := $(shell find ${SOURCE_DIRS} -name "*.cpp" -and -not -name "*flymake*"
 OBJECTS := $(SOURCES:.cpp=.o)
 DEPS := $(SOURCES:.cpp=.d)
 
-# PCH_SOURCES := BoostSpirit.h
+# PCH_SOURCES := src/Boost.h
 # PCH := $(PCH_SOURCES:.h=.pch)
 # PCH_FLAGS := -Ivendor -x c++-header
 
-INCLUDES := # -Ivendor $(patsubst %,-include %,$(PCH_SOURCES))
+# INCLUDES := -Ivendor $(patsubst %,-include %,$(PCH_SOURCES))
 CPPFLAGS :=
 
 WARNING_FLAGS := -Werror -Wfatal-errors -Winline
