@@ -40,7 +40,7 @@ ObjectPtr Parse(const std::string& s2) {
     qi::phrase_parse(it, s.end(), g, ascii::space, v);
 
     {
-        std::cout << "RESULTS = " << std::boolalpha;
+        std::cout << "Parsed: " << std::boolalpha;
         auto _ = Color(Color::Green);
         for (const auto& result : v) {
             std::cout << result << std::endl;

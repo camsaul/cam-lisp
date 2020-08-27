@@ -25,7 +25,7 @@ class Method {
     // static Method Destroy;
 
     /// return the a pointer to the method for type if one exists. Otherwise NULL
-    const _Function * const GetMethod(const Type& type) const;
+    const _Function* GetMethod(const Type& type) const;
 
     // Add (or replace) the method implementation for a type.
     void AddMethod(const Type& type, _Function f);

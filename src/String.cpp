@@ -5,9 +5,9 @@
 
 String::String(const std::string& s): Object { type::STRING }, s_(s) {}
 
-// String::~String() {
-//     std::cout << "Delete String " << (void*)this << std::endl;
-// }
+String::~String() {
+    std::cout << "Delete String " << (void*)this << std::endl;
+}
 
 ObjectPtr MakeString(const std::string& s) {
     return std::make_shared<String>(s);

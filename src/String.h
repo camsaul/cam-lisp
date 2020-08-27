@@ -10,13 +10,14 @@ namespace type {
 
 class String : public Object {
 private:
-    const std::string& s_;
+    const std::string s_;
 public:
     static void Initialize();
 
     // TODO -- make make this private and give std::make_shared friend access to it
     String(const std::string& s);
-    virtual ~String() = default;
+    // virtual ~String() = default;
+    virtual ~String();
 
     inline const std::string& Value() const { return this->s_; }
 };

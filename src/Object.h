@@ -3,13 +3,15 @@
 #include <iostream>
 #include <memory>
 
+#include "Util.h"
+
 typedef std::string Type;
 
 namespace type {
     static const Type TYPE = "type";
 }
 
-class Object {
+class Object : protected NoCopy, protected NoMove {
 protected:
     Object(const Type& type);
 

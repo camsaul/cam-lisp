@@ -7,7 +7,7 @@ class Color {
  public:
     static const std::string Reset;
     static const std::string Red;
-    static const std::string Green;;
+    static const std::string Green;
 
     Color(const std::string& color);
     ~Color();
@@ -19,3 +19,17 @@ class Color {
 /* } */
 
 /* void WithColor(const std::string& color, std::function<()> f); */
+
+class NoCopy {
+protected:
+	NoCopy() = default;
+	NoCopy(const NoCopy&) = delete;
+	NoCopy& operator=(const NoCopy&) = delete;
+};
+
+class NoMove {
+protected:
+	NoMove() = default;
+	NoMove(NoMove&&) = delete;
+	NoMove& operator=(NoMove&&) = delete;
+};

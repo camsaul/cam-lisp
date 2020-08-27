@@ -1,7 +1,12 @@
 *.d
 *.o
-camlisp
-nul
-*flymake*
 *.pch
+*flymake*
+CMakeCache.txt
+CMakeFiles/
+camlisp
+cmake_install.cmake
 debug.log
+nul
+/build
+Makefile
