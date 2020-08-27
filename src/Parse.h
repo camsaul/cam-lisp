@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Object.h"
+#include "Type.h"
 
 /// Parse an object from a String.
-ObjectPtr Parse(const std::string& s);
+Object2Ptr Parse(const std::string& s);

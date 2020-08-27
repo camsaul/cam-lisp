@@ -2,8 +2,6 @@
 #include <boost/variant.hpp>
 
 #include "Parse.h"
-#include "String.h"
-#include "Util.h"
 
 using namespace boost::spirit;
 
@@ -31,7 +29,7 @@ struct Grammar : qi::grammar<Iterator, Results(), Skipper> {
 
 // node %= (token|list);
 
-ObjectPtr Parse(const std::string& s2) {
+Object2Ptr Parse(const std::string& s2) {
     std::string s = s2;
     auto it = s.begin();
     Grammar<std::string::iterator, ascii::space_type> g;
@@ -47,5 +45,5 @@ ObjectPtr Parse(const std::string& s2) {
         }
     }
 
-    return MakeString("\n<ok>");
+    return Symbol::make("wow");
 }
