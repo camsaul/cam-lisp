@@ -6,7 +6,7 @@ project(camlisp
 set(CMAKE_VERBOSE_MAKEFILE on)
 
 # Set C++ Standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 string(CONCAT COMPILER_WARNING_FLAGS
@@ -32,7 +32,7 @@ string(CONCAT COMPILER_DIAGNOSTIC_FLAGS
 )
 
 string(CONCAT COMPILER_FEATURE_FLAGS
-  " -fchar8_t"                          # enable support for C++20 char8_t (UTF-8 string)
+#  " -fchar8_t"                          # enable support for C++20 char8_t (UTF-8 string)
 )
 
 string(CONCAT COMPILER_INSTRUMENTATION_FLAGS
@@ -89,6 +89,8 @@ set(SRC_FILES src/Bootstrap.cpp
               src/Readline.h
               src/String.cpp
               src/String.h
+              src/Type.cpp
+              src/Type.h
               src/Util.cpp
               src/Util.h
               src/main.cpp)

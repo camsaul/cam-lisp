@@ -6,10 +6,18 @@
 #include "Object.h"
 #include "Readline.h"
 #include "String.h"
+#include "Type.h"
 #include "Util.h"
 
 int main() {
     Bootstrap::BootstrapAll();
+
+    auto pair = (cons(Symbol::make("+"),
+                      cons(Int64::make(10),
+                           cons(cons(Int64::make(20),
+                                     Symbol::make("wow")),
+                                nullptr))));
+    std::cout << "MY PAIR = " << pair << std::endl;
 
     {
         auto my_object = MakeString("Neat!");
