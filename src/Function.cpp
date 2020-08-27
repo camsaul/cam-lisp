@@ -10,7 +10,7 @@ const _Function* Method::GetMethod(const Type& type) const {
     if (itr != this->_table.end()) {
         return &itr->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 void Method::AddMethod(const Type& type, _Function f) {

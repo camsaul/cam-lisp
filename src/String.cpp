@@ -17,7 +17,7 @@ void String::Initialize() {
     Method::Print.AddMethod(type::STRING, [](_Args& args) -> ObjectPtr {
         auto _this = (String *)args[0].get();
         std::cout << _this->Value() << std::endl;
-        return NULL;
+        return nullptr;
     });
 
     // Method::Destroy.AddMethod(type::STRING, [](_Args& args) -> ObjectPtr {
@@ -26,8 +26,8 @@ void String::Initialize() {
     //         std::string* data = (std::string *)_this->data;
     //         std::cout << "Delete std::string " << (size_t)_this << std::endl;
     //         delete data;
-    //         _this->data = NULL;
+    //         _this->data = nullptr;
     //     }
-    //     return NULL;
+    //     return nullptr;
     // });
 }

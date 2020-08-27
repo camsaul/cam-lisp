@@ -22,4 +22,5 @@ public:
     inline const std::string& Value() const { return this->s_; }
 };
 
+/// This is a docstring!!!!
 ObjectPtr MakeString(const std::string& s);

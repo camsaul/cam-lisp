@@ -10,3 +10,5 @@ debug.log
 nul
 /build
 Makefile
+/.clangd
+/compile_commands.json
