@@ -29,7 +29,7 @@ struct Grammar : qi::grammar<Iterator, Results(), Skipper> {
 
 // node %= (token|list);
 
-Object2Ptr Parse(const std::string& s2) {
+Ref Parse(const std::string& s2) {
     std::string s = s2;
     auto it = s.begin();
     Grammar<std::string::iterator, ascii::space_type> g;

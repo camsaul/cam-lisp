@@ -1,11 +1,21 @@
-#include "Type.h"
 #include <bits/stdint-intn.h>
 
-Object2::Object2(const Type2& t):
+#include "core_functions.h"
+#include "Print.h"
+#include "Type.h"
+
+Object::Object(const Type& t):
     type_(t)
 {}
 
-std::ostream& operator<<(std::ostream& os, const Object2Ptr object) {
+std::ostream& operator<<(std::ostream& os, Ref object) {
+    if (PrintOption::options() & PrintOption::PrintTypeTag) {
+        // prevent recursive type info printing.
+        os << PrintOption::disable(PrintOption::PrintTypeTag)
+           << '^' << typeName(objectType(object)) << ' '
+           << PrintOption::enable(PrintOption::PrintTypeTag);
+    }
+
     if (object) {
         object->print(os);
     } else {
@@ -15,18 +25,8 @@ std::ostream& operator<<(std::ostream& os, const Object2Ptr object) {
     return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const ConstObject2Ptr object) {
-    if (object) {
-        os << object;
-    } else {
-        os << "nil";
-    };
-
-    return os;
-}
-
 Symbol::Symbol(const std::string& value):
-    Object2 { Type2::Symbol },
+    Object { Type::Symbol },
     value_(value)
 {}
 
@@ -35,24 +35,24 @@ void Symbol::print(std::ostream& os) const {
 }
 
 Pair::Pair():
-    Object2 { Type2::Pair },
+    Object { Type::Pair },
     head_(nullptr),
     tail_(nullptr)
 {}
 
-Pair::Pair(Object2Ptr head, Object2Ptr tail):
-    Object2 { Type2::Pair },
+Pair::Pair(Ref head, Ref tail):
+    Object { Type::Pair },
     head_(head),
     tail_(tail)
 {}
 
 Int64::Int64():
-    Object2 { Type2::Int64 },
+    Object { Type::Int64 },
     value_(0)
 {}
 
 Int64::Int64(int64_t value):
-    Object2 { Type2::Int64 },
+    Object { Type::Int64 },
     value_(value)
 {}
 
@@ -62,7 +62,7 @@ void Int64::print(std::ostream& os) const {
 
 void printPair(std::ostream& os, const Pair& pair) {
     if (pair.tail_) {
-        if (pair.tail_->type_ == Type2::Pair) {
+        if (pair.tail_->type_ == Type::Pair) {
             // tail is a pair: print multiple elements list-style
             os << pair.head_ << ' ';
             printPair(os, (Pair&)(*pair.tail_));

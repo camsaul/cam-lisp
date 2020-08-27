@@ -1,6 +1,8 @@
 #include <iostream>
 
+#include "core_functions.h"
 #include "Parse.h"
+#include "Print.h"
 #include "Readline.h"
 #include "Type.h"
 #include "Util.h"
@@ -11,7 +13,15 @@ int main() {
                            cons(cons(Int64::make(20),
                                      Symbol::make("wow")),
                                 nullptr))));
-    std::cout << "MY PAIR = " << pair << std::endl;
+    std::cout << "MY PAIR = "
+              << pair
+              << std::endl;
+
+    std::cout << "[PRINT TYPE INFO] "
+              << PrintOption::enable(PrintOption::PrintTypeTag)
+              << std::endl
+              << pair
+              << std::endl;
 
     while (true) {
         auto response = ReadLine::Read("> ");
