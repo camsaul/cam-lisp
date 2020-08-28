@@ -5,7 +5,7 @@
 
 // TODO -- consider using Boost.Bimap instead which supports lookup in either direction
 static std::unordered_map<Type, const std::string> sTypeNames {
-    { Type::Null, "Null" },
+    { Type::Nil, "Nil" },
     { Type::T, "T" },
     { Type::Symbol, "Symbol" },
     { Type::Pair , "Pair" },
@@ -27,5 +27,5 @@ Ref typeSymbol(Type t) {
 }
 
 Type objectType(Ref object) {
-    return object ? object->type_ : Type::Null;
+    return object ? object->type_ : Type::Nil;
 }

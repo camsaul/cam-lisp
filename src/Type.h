@@ -9,7 +9,7 @@
 #include "Util.h"
 
 enum class Type {
-    Null = 0,
+    Nil = 0,
     T,
     // TODO: Boolean?
     // TODO: Type?
@@ -38,7 +38,7 @@ typedef std::shared_ptr<const Object> Ref;
 class Object : private NoCopy  {
 public:
     // TODO: don't need to have separate Type and vtable fields. Do something like Objective-C isa
-    const Type type_ = Type::Null;
+    const Type type_ = Type::Nil;
     // TODO: metadata
 
     Object() = default;
@@ -106,7 +106,7 @@ public:
     virtual ~Int64() override = default;
 
     inline static Ref make() { return std::make_shared<Int64>(); }
-    inline static Ref make(int64_t value) { return std::make_shared<Int64>(value); }
+    inline static Ref make(int64_t value) { return std::make_shared<const Int64>(value); }
 
     operator int64_t() const { return value_; }
 

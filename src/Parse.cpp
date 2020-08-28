@@ -1,87 +1,68 @@
-#include <boost/spirit/home/qi/numeric/real.hpp>
-#include <boost/variant/detail/apply_visitor_unary.hpp>
-#include <boost/variant/static_visitor.hpp>
+#include <memory>
 #include <string>
 
-#define BOOST_SPIRIT_USE_PHOENIX_V3
-// #include <boost/spirit/home/support/common_terminals.hpp>
-#include <boost/spirit/include/qi.hpp>
-// #include <boost/phoenix/phoenix.hpp>
-#include <boost/variant.hpp>
+#include "tao/pegtl.hpp"
 
 #include "Parse.h"
 #include "Type.h"
 
-// using namespace boost;
-using namespace boost::spirit;
+namespace grammar {
+    using namespace tao::pegtl; // TODO -- use ::utf8 namespace?
 
-// template <typename Iterator, typename Skipper>
-// struct Grammar : qi::grammar<Iterator, Results(), Skipper> {
-//     Grammar() : Grammar::base_type{values} {
-//         value = qi::int_ | qi::bool_;
-//         values = value % ',';
-//     }
-//     qi::rule<Iterator, Result(), Skipper> value;
-//     qi::rule<Iterator, Results(), Skipper> values;
-// };
+    // See https://github.com/taocpp/PEGTL/blob/master/doc/Rule-Reference.md
 
-// using qi::lexeme;
-// using qi::char_;
-// using namespace qi::labels;
-// // using qi::string;
+    struct integer :
+        seq<opt<one<'+', '-'>>,
+            plus<digit>>
+    {};
 
-// token %= +(char_ -'(' -')' -'#' -'"' -qi::space);
+    struct Grammar :
+        until<integer>
+    {};
+}
 
-// list %= '(' >> *node >> ')';
+namespace action {
+    using namespace tao::pegtl;
+    using namespace grammar;
 
-// node %= (token|list);
+    template <typename Rule>
+    struct Action :
+        nothing<Rule>
+    {};
 
-// struct Grammar2 : qi::grammar<std::string::iterator, Ref, ascii::space_type> {
-//     bool match = false;
-//     Ref
-//     qi::rule<std::string::iterator, Ref(), ascii::space_type> rule;
+    template <>
+    struct Action<integer> {
+        template <typename ActionInput>
+        static void apply(const ActionInput& in, std::vector<Ref>& out) {
+            // std::cout << "in.string() = " << in.string() << std::endl;
+            out.push_back(Int64::make(std::stoi(in.string())));
+        }
+    };
+}
 
-//     Grammar2(): Grammar2::base_type(sexpr) {
-//         value = qi::int_[(
-//                 [](int i) {
-//                     this->match_ = true;
-//                     this->sexpr_ = Int64::make(i);
-//                 })];
-//     }
-// };ma
+Reader::Result Reader::read(std::string::const_iterator& it, const std::string::const_iterator& end)  {
+    using namespace tao;
 
-class Visitor : public boost::static_visitor<Ref> {
-public:
-    Ref operator()(int i) const {
-        return Int64::make(i);
+    std::vector<Ref> output;
+
+    auto parserInput = pegtl::memory_input(&*it, &*end, "");
+
+    pegtl::parse<grammar::Grammar, action::Action>(parserInput, output);
+
+    // std::cout << "[byte] " << parserInput.byte() << std::endl
+    //           << "[line] " << parserInput.line() << std::endl
+    //           << "[column] " << parserInput.byte_in_line() << std::endl;
+
+    // std::cout << "output.size() = " << output.size() << std::endl;
+
+    // for (const auto& item : output) {
+    //     std::cout << "OUTPUT = " << item << std::endl;
+    // }
+
+    if (output.size() == 1) {
+        it += parserInput.byte();
+        return Result { Reader::Status::Ok, output[0] };
+    } else {
+        return Result { Reader::Status::Incomplete, nullptr };
     }
-};
-
-Reader::Result Reader::read(std::string::const_iterator& it, const std::string::const_iterator& end) {
-    // auto grammar =
-    //     qi::int_[([result](int i) mutable {
-    //                   result = Int64::make(i);
-    //               })];
-
-    // auto grammar =
-    //     qi::int_[phoenix::ref(result) = Int64::make(static_cast<int>(qi::_1))];
-
-    // See https://www.boost.org/doc/libs/1_74_0/libs/spirit/doc/html/spirit/qi/quick_reference/qi_parsers/operator.html
-
-    auto grammar =
-        qi::int_ |
-        qi::float_;
-
-    boost::variant<int, float> parsed;
-
-    bool match = qi::phrase_parse(it, end, grammar, ascii::space, parsed);
-
-    auto result = boost::apply_visitor(Visitor(), parsed);
-
-    return (match
-            ? Result { Reader::Status::Ok, result }
-            : (it == end
-               ? Result { Reader::Status::Empty, nullptr }
-               : Result { Reader::Status::Incomplete, nullptr }));
-
 }

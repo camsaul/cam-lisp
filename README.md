@@ -2,12 +2,18 @@
 ### Prereqs
 
 ```bash
-sudo apt install make cmake g++ libstdc++6 libreadline-dev libboost-all-dev
+sudo apt install make cmake g++ libstdc++6 libreadline-dev pip
+pip install conan
 ```
 
 ### Building
 
+#### First-time setup
+
 ```bash
+# Install deps
+conan install .
+
 # first-time config
 cmake .
 

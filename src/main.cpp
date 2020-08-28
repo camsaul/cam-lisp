@@ -55,10 +55,34 @@ void printResult(const Reader::Result& result) {
 }
 
 std::string prompt() {
-    return (incomplete
-            ? (PrintOption::ANSIColor::Yellow + ">> " + PrintOption::ANSIColor::Reset)
-            : (PrintOption::ANSIColor::Green + "> " + PrintOption::ANSIColor::Reset))
-        + buffer;
+    return incomplete
+        ? (PrintOption::ANSIColor::Yellow + ">> " + PrintOption::ANSIColor::Reset)
+        : (PrintOption::ANSIColor::Green + "> " + PrintOption::ANSIColor::Reset);
+}
+
+void readOne() {
+    auto itr = buffer.cbegin();
+    auto end = buffer.cend();
+    auto result = Reader::read(itr, end);
+
+    switch (result.status) {
+    case Reader::Status::Ok:
+        ReadLine::addHistory(std::string(buffer.cbegin(), itr));
+        buffer.erase(buffer.cbegin(), itr);
+        incomplete = false;
+        break;
+    case Reader::Status::Incomplete:
+        incomplete = true;
+        break;
+    case Reader::Status::Empty:
+        incomplete = false;
+        break;
+    case Reader::Status::Error:
+        incomplete = false;
+        break;
+    }
+
+    printResult(result);
 }
 
 void mainLoop() {
@@ -72,33 +96,17 @@ void mainLoop() {
             continue;
         }
 
+        std::cout << "BUFFER = [" << buffer << ']' << std::endl;
+
         auto response = ReadLine::read(prompt());
         if (response.status != ReadLine::Status::OK) break;
 
         buffer += response.line;
 
-        auto itr = buffer.cbegin();
-        auto end = buffer.cend();
-        auto result = Reader::read(itr, end);
-
-        switch (result.status) {
-        case Reader::Status::Ok:
-            ReadLine::addHistory(std::string(buffer.cbegin(), itr));
-            buffer = { itr, buffer.cend() };
-            incomplete = false;
-            break;
-        case Reader::Status::Incomplete:
-            incomplete = true;
-            break;
-        case Reader::Status::Empty:
-            incomplete = false;
-            break;
-        case Reader::Status::Error:
-            incomplete = false;
-            break;
+        // keep reading forms from the buffer until we get in the incomplete state
+        while (buffer.size() > 1 && incomplete == false) {
+            readOne();
         }
-
-        printResult(result);
     }
 }
 

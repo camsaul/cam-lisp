@@ -10,5 +10,10 @@ debug.log
 nul
 /build
 Makefile
-/.clangd
-/compile_commands.json
+.clangd
+compile_commands.json
+conan.lock
+conanbuildinfo.cmake
+conanbuildinfo.txt
+conaninfo.txt
+graph_info.json
