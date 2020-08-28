@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "Type.h"
 
@@ -8,7 +9,7 @@ namespace Reader {
     enum class Status {
         /// There was nothing to read.
         Empty,
-        /// An object was successfully read.
+        /// One or more objects was read successfully.
         Ok,
         /// Current form is not complete.
         Incomplete,
@@ -17,7 +18,8 @@ namespace Reader {
 
     struct Result {
         Status status;
-        Ref object;
+        std::vector<std::string> rawForms;
+        std::vector<Ref> objects;
     };
 
     // TODO -- use utf-8 string type...

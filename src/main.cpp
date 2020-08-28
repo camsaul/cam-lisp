@@ -34,24 +34,10 @@ bool handleCtrlC() {
     return true;
 }
 
-void printResult(const Reader::Result& result) {
-    switch (result.status) {
-    case Reader::Status::Ok:
-        std::cout << PrintOption::ANSIColor::Green
-                  << result.object
-                  << PrintOption::ANSIColor::Reset
-                  << std::endl;
-        break;
-    case Reader::Status::Incomplete:
-    case Reader::Status::Empty:
-        break;
-    case Reader::Status::Error:
-        std::cout << PrintOption::ANSIColor::Red
-                  << result.object
-                  << PrintOption::ANSIColor::Reset
-                  << std::endl;
-        break;
-    }
+void eval(Ref& object) {
+    std::cout << PrintOption::ANSIColor::Green
+              << object
+              << std::endl;
 }
 
 std::string prompt() {
@@ -60,29 +46,24 @@ std::string prompt() {
         : (PrintOption::ANSIColor::Green + "> " + PrintOption::ANSIColor::Reset);
 }
 
-void readOne() {
+void parseBuffer() {
     auto itr = buffer.cbegin();
     auto end = buffer.cend();
     auto result = Reader::read(itr, end);
 
-    switch (result.status) {
-    case Reader::Status::Ok:
-        ReadLine::addHistory(std::string(buffer.cbegin(), itr));
-        buffer.erase(buffer.cbegin(), itr);
-        incomplete = false;
-        break;
-    case Reader::Status::Incomplete:
-        incomplete = true;
-        break;
-    case Reader::Status::Empty:
-        incomplete = false;
-        break;
-    case Reader::Status::Error:
-        incomplete = false;
-        break;
+    buffer.erase(buffer.cbegin(), itr);
+
+    incomplete = result.status == Reader::Status::Incomplete;
+
+    for (const auto& rawForm : result.rawForms) {
+        ReadLine::addHistory(rawForm);
     }
 
-    printResult(result);
+    // TODO -- handle Reader::Status::Error
+
+    for (auto& object : result.objects) {
+        eval(object);
+    }
 }
 
 void mainLoop() {
@@ -103,10 +84,7 @@ void mainLoop() {
 
         buffer += response.line;
 
-        // keep reading forms from the buffer until we get in the incomplete state
-        while (buffer.size() > 1 && incomplete == false) {
-            readOne();
-        }
+        parseBuffer();
     }
 }
 
