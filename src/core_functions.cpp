@@ -1,7 +1,9 @@
+#include <string>
 #include <unordered_map>
 
 #include "core_functions.h"
 
+// TODO -- consider using Boost.Bimap instead which supports lookup in either direction
 static std::unordered_map<Type, const std::string> sTypeNames {
     { Type::Null, "Null" },
     { Type::T, "T" },

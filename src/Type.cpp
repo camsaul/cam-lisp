@@ -1,7 +1,7 @@
 #include <bits/stdint-intn.h>
 
 #include "core_functions.h"
-#include "Print.h"
+#include "PrintOptions.h"
 #include "Type.h"
 
 Object::Object(const Type& t):
@@ -12,7 +12,9 @@ std::ostream& operator<<(std::ostream& os, Ref object) {
     if (PrintOption::options() & PrintOption::PrintTypeTag) {
         // prevent recursive type info printing.
         os << PrintOption::disable(PrintOption::PrintTypeTag)
-           << '^' << typeName(objectType(object)) << ' '
+           << PrintOption::ANSIColor::Magenta
+           << '^' << typeName(objectType(object))
+           << PrintOption::ANSIColor::Reset << ' '
            << PrintOption::enable(PrintOption::PrintTypeTag);
     }
 

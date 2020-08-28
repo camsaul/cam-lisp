@@ -23,6 +23,16 @@ namespace PrintOption {
     inline Options disable(PrintOption::Options opts) {
         return set(options() ^ opts);
     }
+
+    namespace ANSIColor {
+        extern const std::string Reset;
+        extern const std::string Red;
+        extern const std::string Green;
+        extern const std::string Yellow;
+        extern const std::string Blue;
+        extern const std::string Magenta;
+        extern const std::string Cyan;
+    }
 }
 
 inline std::ostream& operator<<(std::ostream& os, PrintOption::Options opts) {

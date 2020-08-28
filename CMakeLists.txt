@@ -79,8 +79,8 @@ find_package(Boost REQUIRED)
 
 set(SRC_FILES src/Parse.cpp
               src/Parse.h
-              src/Print.cpp
-              src/Print.h
+              src/PrintOptions.cpp
+              src/PrintOptions.h
               src/Readline.cpp
               src/Readline.h
               src/Type.cpp

@@ -28,6 +28,12 @@ enum class Type {
     // TODO: Method(?)
 };
 
+class Object;
+class Pair;
+
+typedef std::shared_ptr<Object> MutableRef;
+typedef std::shared_ptr<const Object> Ref;
+
 /// Abstract base class of all objects in Cam Lisp.
 class Object : private NoCopy  {
 public:
@@ -42,17 +48,21 @@ public:
 
     /// print an object to an output stream. TODO -- different print strategies e.g printing human-readable output,
     /// printing evalable output, pretty printing
+    //
+    // TODO -- make these all "Methods" instead of C++ methods.
     virtual void print(std::ostream& os) const = 0;
+
+    // TODO
+    // virtual Ref eval() const  = 0;
+    // virtual Ref invoke(std::shared_ptr<const Pair> args) const;
+    // virtual MutableRef invokeMutable(std::shared_ptr<Pair> args);
 };
-
-typedef std::shared_ptr<Object> MutableRef;
-typedef std::shared_ptr<const Object> Ref;
-
 // TODO -- why do we need separate const and non-const versions?
 std::ostream& operator<<(std::ostream& os, Ref object);
 
 class Symbol: public Object {
 public:
+    // TODO -- use the utf8 string type here instead!
     const std::string value_;
 
     Symbol(const std::string& value);
