@@ -10,12 +10,12 @@ void ReadLine::setup() {
     rl_set_signals();
 }
 
-void ReadLine::reset() {
-    std::cout << std::endl;
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
+// void ReadLine::reset() {
+//     std::cout << std::endl;
+//     rl_on_new_line();
+//     rl_replace_line("", 0);
+//     rl_redisplay();
+// }
 
 const ReadLine::Response ReadLine::read(const std::string& prompt) {
     char *buffer = readline(prompt.c_str());

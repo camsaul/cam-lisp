@@ -18,7 +18,7 @@ namespace ReadLine {
     void setup();
 
     /// reset readline after a jump caused by catching a signal
-    void reset();
+    // void reset();
 
     const ReadLine::Response read(const std::string& prompt);
 

@@ -17,18 +17,21 @@ void handleSignal(int signal) {
     if (signal == SIGINT) siglongjmp(ctrlcBuf, 1);
 }
 
+
 std::string buffer;
 bool incomplete = false;
 
-void handleCtrlC() {
+/// returns true if the signal was "handled" and we should continue running; otherwise false meaning we should exit.
+bool handleCtrlC() {
     if (!incomplete) {
         std::cout << std::endl << "Bye!" << std::endl;
-        exit(1);
+        return false;
     }
 
     std::cout << std::endl << "Ctrl-C" << std::endl;
     incomplete = false;
     buffer = "";
+    return true;
 }
 
 void printResult(const Reader::Result& result) {
@@ -63,8 +66,9 @@ void mainLoop() {
         // normally sigsetjmp returns 0; if handleSignal() is called we'll jump to here and sigsetjmp() will return 1
         // (passed in handleSignal). In that case do Ctrl-C handling and restart the main loop
         if (sigsetjmp(ctrlcBuf, 1) != 0) {
-            handleCtrlC();
-            // ReadLine::reset();
+            // If Ctrl-C happened while the current form was incomplete, just clear out the buffer and restart the
+            // loop. If not in incomplete-mode break out of the loop so the program will exit.
+            if (!handleCtrlC()) break;
             continue;
         }
 
@@ -112,7 +116,9 @@ int main() {
               << pair
               << std::endl;
 
-    std::cout << "[PRINT TYPE INFO] "
+    std::cout << PrintOption::ANSIColor::Yellow
+              << "*print-type-info*"
+              << PrintOption::ANSIColor::Reset
               << PrintOption::enable(PrintOption::PrintTypeTag)
               << std::endl
               << pair
