@@ -51,7 +51,10 @@ void parseBuffer() {
     auto end = buffer.cend();
     auto result = Reader::read(itr, end);
 
+    // remove everything we've parsed from the buffer.
     buffer.erase(buffer.cbegin(), itr);
+    // if there's some leftover text add whitespace because the newline entered by the user gets removed.
+    if (buffer.size()) buffer += " ";
 
     incomplete = result.status == Reader::Status::Incomplete;
 

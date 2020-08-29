@@ -48,7 +48,8 @@ string(CONCAT COMPILER_SECURITY_FLAGS
 string(CONCAT OTHER_COMPILER_FLAGS
   " -fanalyzer"                         # enable static analysis of code/advanced warnings
   " -pipe"                              # avoid temp files to speed up builds
-  " -O2"                                # recommended optimizations
+  # " -O2"                                # recommended optimizations
+  " -Wfatal-errors"                     # stop after first error
 )
 
 string(CONCAT CMAKE_CXX_FLAGS

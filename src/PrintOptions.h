@@ -4,11 +4,13 @@
 
 namespace PrintOption {
     enum Options : unsigned {
-        None            = 0b0000, // 0
-        MachineReadable = 0b0001, // 1
-        Pretty          = 0b0010, // 2
-        PrintTypeTag    = 0b0100, // 4
-        PrintMetadata   = 0b1000  // 8
+        None            = 0b00000000, // 0
+        MachineReadable = 0b00000001, // 1
+        Pretty          = 0b00000010, // 2
+        PrintTypeTag    = 0b00000100, // 4
+        PrintMetadata   = 0b00001000  // 8
+        /// TODO Whether to print lists in dotted pair form only e.g. (a . (b . (c . nil))) instead of (a b c)
+        // NoLists         = 0b00010000  // 16
     };
 
     // TODO -- use a dynamic var instead.

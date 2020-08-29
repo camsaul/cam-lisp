@@ -8,6 +8,10 @@ Object::Object(const Type& t):
     type_(t)
 {}
 
+bool Object::isEqual(const Object& rhs) const {
+    return this->isIdentical(rhs);
+}
+
 std::ostream& operator<<(std::ostream& os, Ref object) {
     if (PrintOption::options() & PrintOption::PrintTypeTag) {
         // prevent recursive type info printing.
@@ -60,6 +64,11 @@ Int64::Int64(int64_t value):
 
 void Int64::print(std::ostream& os) const {
     os << this->value_;
+}
+
+bool Int64::isEqual(const Object& rhs) const {
+    return (this->type_ == rhs.type_)
+        && this->value_ == ((Int64&)rhs).value_;
 }
 
 void printPair(std::ostream& os, const Pair& pair) {

@@ -46,6 +46,16 @@ public:
 
     virtual ~Object() = default;
 
+    inline bool isIdentical(const Object& rhs) const {
+        return this == &rhs;
+    }
+
+    virtual bool isEqual(const Object& rhs) const;
+
+    inline bool operator==(const Object& rhs) const {
+        return this->isEqual(rhs);
+    }
+
     /// print an object to an output stream. TODO -- different print strategies e.g printing human-readable output,
     /// printing evalable output, pretty printing
     //
@@ -109,6 +119,8 @@ public:
     inline static Ref make(int64_t value) { return std::make_shared<const Int64>(value); }
 
     operator int64_t() const { return value_; }
+
+    virtual bool isEqual(const Object& rhs) const override;
 
     virtual void print(std::ostream& os) const override;
 };
